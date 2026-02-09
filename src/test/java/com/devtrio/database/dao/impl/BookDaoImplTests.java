@@ -1,7 +1,7 @@
 package com.devtrio.database.dao.impl;
 
-import Dao.Impl.BookDaoImpl;
-import Domain.Book;
+import com.devtrio.database.dao.Impl.BookDaoImpl;
+import com.devtrio.database.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

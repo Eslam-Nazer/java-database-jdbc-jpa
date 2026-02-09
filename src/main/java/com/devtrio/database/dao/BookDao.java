@@ -1,6 +1,6 @@
-package Dao;
+package com.devtrio.database.dao;
 
-import Domain.Book;
+import com.devtrio.database.domain.Book;
 
 import java.util.Optional;
 

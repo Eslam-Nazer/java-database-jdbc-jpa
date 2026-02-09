@@ -1,7 +1,7 @@
-package Dao.Impl;
+package com.devtrio.database.dao.Impl;
 
-import Dao.BookDao;
-import Domain.Book;
+import com.devtrio.database.dao.BookDao;
+import com.devtrio.database.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 

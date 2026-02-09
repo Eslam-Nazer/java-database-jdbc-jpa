@@ -1,21 +1,20 @@
 package com.devtrio.database.dao.impl;
 
-import Dao.Impl.AuthorDaoImpl;
-import Domain.Author;
+import com.devtrio.database.TestDataUtil;
+import com.devtrio.database.dao.Impl.AuthorDaoImpl;
+import com.devtrio.database.domain.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthorDaoImplTests {
@@ -26,7 +25,7 @@ public class AuthorDaoImplTests {
 
     @Test
     public void testThatCreateAuthorGenerateCorrectSql() {
-        Author author = Author.builder().id(1L).name("Abigail Rose").age(25).build();
+        Author author = TestDataUtil.createTestAuthor();
 
         underTest.create(author);
 

@@ -1,15 +1,17 @@
-package Dao.Impl;
+package com.devtrio.database.dao.Impl;
 
-import Dao.BookDao;
-import Domain.Book;
+import com.devtrio.database.dao.BookDao;
+import com.devtrio.database.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class BookDaoImpl implements BookDao {
 
     private final JdbcTemplate jdbcTemplate;

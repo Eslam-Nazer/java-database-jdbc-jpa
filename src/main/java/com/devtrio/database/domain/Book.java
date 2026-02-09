@@ -1,4 +1,4 @@
-package Domain;
+package com.devtrio.database.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

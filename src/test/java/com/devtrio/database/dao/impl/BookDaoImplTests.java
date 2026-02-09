@@ -1,7 +1,8 @@
 package com.devtrio.database.dao.impl;
 
-import Dao.Impl.BookDaoImpl;
-import Domain.Book;
+import com.devtrio.database.TestDataUtil;
+import com.devtrio.database.dao.Impl.BookDaoImpl;
+import com.devtrio.database.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -23,11 +24,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatCreateBookGeneratesCorrectSql() {
-        Book book = Book.builder()
-                .isbn("978-1-2345-6789-0")
-                .title("The Shadow in the Attic")
-                .authorId(1L)
-                .build();
+        Book book = TestDataUtil.createTestBook();
 
         underTest.create(book);
 

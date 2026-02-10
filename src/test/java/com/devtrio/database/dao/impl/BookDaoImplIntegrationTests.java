@@ -10,16 +10,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookDaoImplIntegrationTests {
 
-    private AuthorDao authorDao;
-    private BookDaoImpl underTest;
+    private final AuthorDao authorDao;
+    private final BookDaoImpl underTest;
 
     @Autowired
     public BookDaoImplIntegrationTests(BookDaoImpl underTest, AuthorDao authorDao) {
@@ -40,5 +43,21 @@ public class BookDaoImplIntegrationTests {
 
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(book);
+    }
+
+    @Test
+    public void testThatBooksCanBeCreatedAndRecalled() {
+        List<Book> books = TestDataUtil.createTestBooks(authorDao);
+
+        for (Book book: books) {
+            underTest.create(book);
+        }
+
+        List<Book> results = underTest.find();
+
+        Assertions.assertThat(results)
+                .hasSize(3)
+                .containsExactlyElementsOf(books)
+                .containsExactlyInAnyOrderElementsOf(books);
     }
 }

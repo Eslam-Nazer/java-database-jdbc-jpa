@@ -20,6 +20,17 @@ public class AuthorDaoImpl implements AuthorDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static class AuthorRowMapper implements RowMapper<Author> {
+        @Override
+        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Author.builder()
+                    .id(rs.getLong("id"))
+                    .name(rs.getString("name"))
+                    .age(rs.getInt("age"))
+                    .build();
+        }
+    }
+
     @Override
     public void create(Author author) {
         String sql = "INSERT INTO authors (id, name, age) VALUES (?, ?, ?)";
@@ -45,14 +56,8 @@ public class AuthorDaoImpl implements AuthorDao {
         return results.stream().findFirst();
     }
 
-    public static class AuthorRowMapper implements RowMapper<Author> {
-        @Override
-        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return Author.builder()
-                    .id(rs.getLong("id"))
-                    .name(rs.getString("name"))
-                    .age(rs.getInt("age"))
-                    .build();
-        }
+    @Override
+    public List<Author> find() {
+        return jdbcTemplate.query("SELECT id, name, age FROM authors", new AuthorRowMapper());
     }
 }

@@ -1,7 +1,10 @@
 package com.devtrio.database;
 
+import com.devtrio.database.dao.AuthorDao;
 import com.devtrio.database.domain.Author;
 import com.devtrio.database.domain.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +35,35 @@ public class TestDataUtil {
                 .title("The Shadow in the Attic")
                 .authorId(1L)
                 .build();
+    }
+
+    public static List<Book> createTestBooks(AuthorDao authorDao) {
+        List<Book> books = new ArrayList<Book>();
+
+        Author author = createTestAuthor();
+        authorDao.create(author);
+
+        books.add(Book.builder()
+                .isbn("978-1-2345-6789-1")
+                .title("The Shadow in the Attic")
+                .authorId(author.getId())
+                .build()
+        );
+
+        books.add(Book.builder()
+                .isbn("978-1-2345-6789-2")
+                .title("Beyond the Horizon")
+                .authorId(author.getId())
+                .build()
+        );
+
+        books.add(Book.builder()
+                .isbn("978-1-2345-6789-3")
+                .title("The Last Ember")
+                .authorId(author.getId())
+                .build()
+        );
+
+        return books;
     }
 }

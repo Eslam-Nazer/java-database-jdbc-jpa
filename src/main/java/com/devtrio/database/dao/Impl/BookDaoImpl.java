@@ -20,6 +20,17 @@ public class BookDaoImpl implements BookDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static class BookRowMapper implements RowMapper<Book> {
+        @Override
+        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Book.builder()
+                    .isbn(rs.getString("isbn"))
+                    .title(rs.getString("title"))
+                    .authorId(rs.getLong("author_id"))
+                    .build();
+        }
+    }
+
     public void create(Book book) {
         String sql = "INSERT INTO books (isbn, title, author_id) VALUES (?, ?, ?)";
 
@@ -35,14 +46,9 @@ public class BookDaoImpl implements BookDao {
         return results.stream().findFirst();
     }
 
-    public static class BookRowMapper implements RowMapper<Book> {
-        @Override
-        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return Book.builder()
-                    .isbn(rs.getString("isbn"))
-                    .title(rs.getString("title"))
-                    .authorId(rs.getLong("author_id"))
-                    .build();
-        }
+    @Override
+    public List<Book> find() {
+        String sql = "SELECT isbn, title, author_id FROM books";
+        return jdbcTemplate.query(sql, new BookRowMapper());
     }
 }

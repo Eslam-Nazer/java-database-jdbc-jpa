@@ -1,4 +1,4 @@
-package com.devtrio.database.dao.impl;
+package com.devtrio.database.repositories;
 
 import com.devtrio.database.TestDataUtil;
 import com.devtrio.database.dao.AuthorDao;

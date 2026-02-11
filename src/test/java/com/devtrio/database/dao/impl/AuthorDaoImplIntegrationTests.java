@@ -51,4 +51,20 @@ public class AuthorDaoImplIntegrationTests {
                 .containsExactlyElementsOf(authors)
                 .containsExactlyInAnyOrderElementsOf(authors);
     }
+
+    @Test
+    public void testThatAuthorCanBeUpdated() {
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+
+        author.setName("Updated Name");
+        author.setAge(40);
+        underTest.update(author.getId(), author);
+
+        Optional<Author> result = underTest.findOne(author.getId());
+
+        Assertions.assertThat(result)
+                .isPresent();
+        Assertions.assertThat(result.get()).isEqualTo(author);
+    }
 }

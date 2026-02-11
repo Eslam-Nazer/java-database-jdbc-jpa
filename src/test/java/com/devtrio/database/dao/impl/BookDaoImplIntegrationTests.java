@@ -60,4 +60,22 @@ public class BookDaoImplIntegrationTests {
                 .containsExactlyElementsOf(books)
                 .containsExactlyInAnyOrderElementsOf(books);
     }
+
+    @Test
+    public void testThatBookCanBeUpdated() {
+        Author author = TestDataUtil.createTestAuthor();
+        authorDao.create(author);
+
+        Book book = TestDataUtil.createTestBook();
+        String isbn = book.getIsbn();
+        underTest.create(book);
+
+        book.setTitle("Updated This Title");
+        underTest.update(isbn, book);
+
+        Optional<Book> result = underTest.findOne(isbn);
+
+        Assertions.assertThat(result).isPresent();
+        Assertions.assertThat(result.get()).isEqualTo(book);
+    }
 }

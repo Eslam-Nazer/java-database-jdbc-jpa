@@ -69,4 +69,15 @@ public class BookDaoImplTests {
                 book.getIsbn(), book.getTitle(), book.getAuthorId(), isbn
         );
     }
+
+    @Test
+    public void testThatDeleteGeneratesCorrectSql() {
+        String isbn = "978-1-2345-6789-0";
+        underTest.delete(isbn);
+
+        verify(jdbcTemplate).update(
+                "DELETE FROM books WHERE isbn = ?",
+                isbn
+        );
+    }
 }

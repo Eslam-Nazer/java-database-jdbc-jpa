@@ -59,4 +59,11 @@ public class BookDaoImpl implements BookDao {
                 book.getIsbn(), book.getTitle(), book.getAuthorId(), isbn
         );
     }
+
+    @Override
+    public void delete(String isbn) {
+        String sql = "DELETE FROM books WHERE isbn = ?";
+
+        jdbcTemplate.update(sql, isbn);
+    }
 }

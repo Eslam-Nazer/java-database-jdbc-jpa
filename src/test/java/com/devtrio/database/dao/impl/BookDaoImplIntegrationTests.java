@@ -78,4 +78,21 @@ public class BookDaoImplIntegrationTests {
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(book);
     }
+
+    @Test
+    public void testThatBookCanBe() {
+        Author author = TestDataUtil.createTestAuthor();
+        authorDao.create(author);
+
+        Book book = TestDataUtil.createTestBook();
+        book.setAuthorId(author.getId());
+        String isbn = book.getIsbn();
+        underTest.create(book);
+
+        underTest.delete(isbn);
+        
+        Optional<Book> result = underTest.findOne(isbn);
+
+        Assertions.assertThat(result).isEmpty();
+    }
 }

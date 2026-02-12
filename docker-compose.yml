@@ -1,0 +1,18 @@
+services:
+  java-postgresql:
+    container_name: "java-postgresql"
+    image: postgres
+    ports:
+      - "6432:5432"
+
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: password
+
+  adminer:
+    container_name: "postgres_admin"
+    image: adminer
+    restart: always
+    ports:
+      - "8090:8080"

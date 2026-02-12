@@ -1,7 +1,6 @@
 package com.devtrio.database.repositories;
 
 import com.devtrio.database.TestDataUtil;
-import com.devtrio.database.dao.Impl.AuthorDaoImpl;
 import com.devtrio.database.domain.Author;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,25 +12,26 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AuthorDaoImplIntegrationTests {
+public class AuthorRepositoryIntegrationTests {
 
-    private final AuthorDaoImpl underTest;
+    private final AuthorRepository underTest;
 
     @Autowired
-    public AuthorDaoImplIntegrationTests(AuthorDaoImpl underTest) {
+    public AuthorRepositoryIntegrationTests(AuthorRepository underTest) {
         this.underTest = underTest;
     }
 
     @Test
-    public void testThatFindOneGeneratesCorrectSql() {
+    public void testThatAuthorCanBeCreatedAndRecalled() {
         Author author = TestDataUtil.createTestAuthor();
 
-        underTest.create(author);
-        Optional<Author> result = underTest.findOne(author.getId());
+        underTest.save(author);
+        Optional<Author> result = underTest.findById(author.getId());
 
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(author);
@@ -39,12 +39,12 @@ public class AuthorDaoImplIntegrationTests {
 
     @Test
     public void testThatMultipleAuthorsCanBeCreatedAndRecalled() {
-        List<Author> authors = TestDataUtil.createTestAuthors();
-        for(Author author: authors) {
-            underTest.create(author);
-        }
+        List<Author> authors = TestDataUtil.createTestAuthors()
+                .stream()
+                .map(underTest::save)
+                .collect(Collectors.toList());
 
-        List<Author> results = underTest.find();
+        Iterable<Author> results = underTest.findAll();
 
         Assertions.assertThat(results)
                 .hasSize(3)
@@ -55,13 +55,13 @@ public class AuthorDaoImplIntegrationTests {
     @Test
     public void testThatAuthorCanBeUpdated() {
         Author author = TestDataUtil.createTestAuthor();
-        underTest.create(author);
+        underTest.save(author);
 
         author.setName("Updated Name");
         author.setAge(40);
-        underTest.update(author.getId(), author);
+        underTest.save(author);
 
-        Optional<Author> result = underTest.findOne(author.getId());
+        Optional<Author> result = underTest.findById(author.getId());
 
         Assertions.assertThat(result)
                 .isPresent();
@@ -71,11 +71,11 @@ public class AuthorDaoImplIntegrationTests {
     @Test
     public void testThatAuthorCanBeDeleted() {
         Author author = TestDataUtil.createTestAuthor();
-        underTest.create(author);
+        underTest.save(author);
 
-        underTest.delete(author.getId());
+        underTest.deleteById(author.getId());
 
-        Optional<Author> result = underTest.findOne(author.getId());
+        Optional<Author> result = underTest.findById(author.getId());
 
         Assertions.assertThat(result).isEmpty();
     }

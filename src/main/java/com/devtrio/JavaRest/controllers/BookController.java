@@ -1,7 +1,7 @@
 package com.devtrio.database.controllers;
 
-import com.devtrio.database.domain.Author;
-import com.devtrio.database.domain.Book;
+import com.devtrio.database.domain.entities.Author;
+import com.devtrio.database.domain.entities.Book;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

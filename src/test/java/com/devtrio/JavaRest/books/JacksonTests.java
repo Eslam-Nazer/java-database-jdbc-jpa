@@ -1,7 +1,7 @@
 package com.devtrio.database.books;
 
-import com.devtrio.database.domain.Author;
-import com.devtrio.database.domain.Book;
+import com.devtrio.database.domain.entities.Author;
+import com.devtrio.database.domain.entities.Book;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.ObjectMapper;

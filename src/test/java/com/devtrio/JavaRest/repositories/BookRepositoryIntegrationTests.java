@@ -1,8 +1,8 @@
 package com.devtrio.database.repositories;
 
 import com.devtrio.database.TestDataUtil;
-import com.devtrio.database.domain.Author;
-import com.devtrio.database.domain.Book;
+import com.devtrio.database.domain.entities.Author;
+import com.devtrio.database.domain.entities.Book;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

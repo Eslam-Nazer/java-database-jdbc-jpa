@@ -8,6 +8,14 @@ import tools.jackson.databind.ObjectMapper;
 
 public class JacksonTests {
 
+    private final String json1;
+    private final String json2;
+
+    public JacksonTests() {
+        json1 = "{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"year\":\"2005\"}";
+        json2 = "{\"foo\":\"bar\",\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"year\":\"2005\"}";
+    }
+
     @Test
     public void testThatObjectMapperCanCreateJsonFromJavaObject() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -22,7 +30,7 @@ public class JacksonTests {
         String result = objectMapper.writeValueAsString(book);
 
         Assertions.assertThat(result).isEqualTo(
-                "{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"yearPublished\":\"2005\"}"
+                json1
         );
     }
 
@@ -35,11 +43,9 @@ public class JacksonTests {
                 .yearPublished("2005")
                 .build();
 
-        String json = "{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"yearPublished\":\"2005\"}";
-
         final ObjectMapper objectMapper = new ObjectMapper();
 
-        Book result = objectMapper.readValue(json, Book.class);
+        Book result = objectMapper.readValue(json2, Book.class);
 
         Assertions.assertThat(result).isEqualTo(book);
     }

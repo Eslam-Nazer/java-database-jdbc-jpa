@@ -1,5 +1,7 @@
 package com.devtrio.database.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "books")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
     @Id
     private String isbn;
@@ -22,5 +25,6 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    @JsonProperty("year")
     private String yearPublished;
 }

@@ -21,6 +21,26 @@ public class JacksonTests {
 
         String result = objectMapper.writeValueAsString(book);
 
-        Assertions.assertThat(result).isEqualTo("{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"yearPublished\":\"2005\"}");
+        Assertions.assertThat(result).isEqualTo(
+                "{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"yearPublished\":\"2005\"}"
+        );
+    }
+
+    @Test
+    public void testThatObjectMapperCanCreateJavaObjectFromJsonObject() {
+        Book book = Book.builder()
+                .isbn("987-0-12-47863-5")
+                .title("The Enigma of Eternity")
+                .author(new Author(null, "Owner name", 34))
+                .yearPublished("2005")
+                .build();
+
+        String json = "{\"isbn\":\"987-0-12-47863-5\",\"title\":\"The Enigma of Eternity\",\"author\":{\"id\":null,\"name\":\"Owner name\",\"age\":34},\"yearPublished\":\"2005\"}";
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+
+        Book result = objectMapper.readValue(json, Book.class);
+
+        Assertions.assertThat(result).isEqualTo(book);
     }
 }

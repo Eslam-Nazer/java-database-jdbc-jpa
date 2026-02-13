@@ -1,10 +1,10 @@
-package com.devtrio.database;
+package com.devtrio.JavaRest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DatabaseApplicationTests {
+class JavaRestApplicationTests {
 
     @Test
     void contextLoads() {

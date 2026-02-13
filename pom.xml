@@ -11,8 +11,8 @@
     <groupId>com.devtrio</groupId>
     <artifactId>database</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>database</name>
-    <description>database</description>
+    <name>JavaRest</name>
+    <description>JavaRest</description>
     <url/>
     <licenses>
         <license/>
@@ -38,11 +38,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webmvc</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.2.4</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.postgresql</groupId>

@@ -1,4 +1,4 @@
-package com.devtrio.database.domain;
+package com.devtrio.JavaRest.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

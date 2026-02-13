@@ -1,7 +1,7 @@
-package com.devtrio.database.controllers;
+package com.devtrio.JavaRest.controllers;
 
-import com.devtrio.database.domain.Author;
-import com.devtrio.database.domain.Book;
+import com.devtrio.JavaRest.domain.entities.Author;
+import com.devtrio.JavaRest.domain.entities.Book;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BookController {
 
-    @GetMapping("/books")
+    @GetMapping(path = "/books")
     public Book index() {
         return Book.builder()
                 .isbn("987-0-12-47863-5")
@@ -20,7 +20,7 @@ public class BookController {
                 .build();
     }
 
-    @PostMapping("/books")
+    @PostMapping(path = "/books")
     public Book store(@RequestBody final Book book) {
         return book;
     }

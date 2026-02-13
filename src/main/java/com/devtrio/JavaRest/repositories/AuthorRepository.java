@@ -1,6 +1,6 @@
-package com.devtrio.database.repositories;
+package com.devtrio.JavaRest.repositories;
 
-import com.devtrio.database.domain.Author;
+import com.devtrio.JavaRest.domain.entities.Author;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

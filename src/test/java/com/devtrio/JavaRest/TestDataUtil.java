@@ -1,7 +1,7 @@
-package com.devtrio.database;
+package com.devtrio.JavaRest;
 
-import com.devtrio.database.domain.entities.Author;
-import com.devtrio.database.domain.entities.Book;
+import com.devtrio.JavaRest.domain.entities.Author;
+import com.devtrio.JavaRest.domain.entities.Book;
 
 import java.util.ArrayList;
 import java.util.List;

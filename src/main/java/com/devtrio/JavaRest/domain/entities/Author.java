@@ -1,4 +1,4 @@
-package com.devtrio.database.domain.entities;
+package com.devtrio.JavaRest.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.devtrio.database.domain.dto;
+package com.devtrio.JavaRest.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

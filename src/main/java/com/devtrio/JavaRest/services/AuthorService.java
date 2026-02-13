@@ -1,8 +1,8 @@
-package com.devtrio.database.services;
+package com.devtrio.JavaRest.services;
 
-import com.devtrio.database.domain.dto.AuthorDto;
+import com.devtrio.JavaRest.domain.entities.Author;
 
 public interface AuthorService {
 
-    AuthorDto create(AuthorDto author);
+    Author create(Author author);
 }

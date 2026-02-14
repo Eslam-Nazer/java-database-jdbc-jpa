@@ -1,0 +1,45 @@
+package com.devtrio.BooksRestApi.controllers;
+
+import com.devtrio.BooksRestApi.domain.dto.BookDto;
+import com.devtrio.BooksRestApi.domain.entities.Book;
+import com.devtrio.BooksRestApi.mappers.Mapper;
+import com.devtrio.BooksRestApi.services.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BookController {
+
+    private final Mapper<Book, BookDto> bookMapper;
+    private final BookService bookService;
+
+    public BookController(Mapper<Book, BookDto> bookMapper, BookService bookService) {
+        this.bookMapper = bookMapper;
+        this.bookService = bookService;
+    }
+
+//    @GetMapping(path = "/books")
+//    public Book index() {
+//        return Book.builder()
+//                .isbn("987-0-12-47863-5")
+//                .title("The Enigma of Eternity")
+//                .author(new Author(null, "Owner name", 34))
+//                .yearPublished("2005")
+//                .build();
+//    }
+
+    @PutMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> create(
+            @PathVariable("isbn") String isbn,
+            @RequestBody BookDto bookDto
+    ) {
+        Book book = bookMapper.mapFrom(bookDto);
+        book = bookService.create(isbn, book);
+
+        return new ResponseEntity<>(bookMapper.mapTo(book), HttpStatus.CREATED);
+    }
+}

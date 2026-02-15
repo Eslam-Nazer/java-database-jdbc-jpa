@@ -6,6 +6,7 @@ import com.devtrio.BooksRestApi.services.BookService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -29,5 +30,10 @@ public class BookServiceImpl implements BookService {
     public List<Book> findAll() {
         Spliterator<Book> spliterator = bookRepository.findAll().spliterator();
         return  StreamSupport.stream(spliterator, false).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Book> findById(String isbn) {
+        return bookRepository.findById(isbn);
     }
 }

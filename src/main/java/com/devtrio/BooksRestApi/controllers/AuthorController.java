@@ -4,14 +4,13 @@ import com.devtrio.BooksRestApi.domain.dto.AuthorDto;
 import com.devtrio.BooksRestApi.domain.entities.Author;
 import com.devtrio.BooksRestApi.mappers.Mapper;
 import com.devtrio.BooksRestApi.services.AuthorService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,5 +38,18 @@ public class AuthorController {
         author = authorService.create(author);
 
         return new ResponseEntity<>(authorMapper.mapTo(author), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> show(@PathVariable("id") long id) {
+        Optional<Author> author = authorService.findById(id);
+
+        return author.map(foundAuthor -> {
+            AuthorDto authorDto = authorMapper.mapTo(foundAuthor);
+
+            return new ResponseEntity<>(authorDto, HttpStatus.OK);
+        }).orElse(
+                new ResponseEntity<>(HttpStatus.NOT_FOUND)
+        );
     }
 }

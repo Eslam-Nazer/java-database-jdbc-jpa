@@ -6,6 +6,7 @@ import com.devtrio.BooksRestApi.services.AuthorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -28,5 +29,10 @@ public class AuthorServiceImpl implements AuthorService {
     public List<Author> findAll() {
         Spliterator<Author> spliterator = authorRepository.findAll().spliterator();
         return StreamSupport.stream(spliterator, false).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Author> findById(long id) {
+        return authorRepository.findById(id);
     }
 }

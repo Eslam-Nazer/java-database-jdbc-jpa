@@ -6,10 +6,10 @@ import com.devtrio.BooksRestApi.mappers.Mapper;
 import com.devtrio.BooksRestApi.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -22,15 +22,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
-//    @GetMapping(path = "/books")
-//    public Book index() {
-//        return Book.builder()
-//                .isbn("987-0-12-47863-5")
-//                .title("The Enigma of Eternity")
-//                .author(new Author(null, "Owner name", 34))
-//                .yearPublished("2005")
-//                .build();
-//    }
+    @GetMapping(path = "/books")
+    public ResponseEntity<List<BookDto>> index() {
+        List<Book> books = bookService.findAll();
+        List<BookDto> bookDtos = books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
+        return new ResponseEntity<>(bookDtos, HttpStatus.OK);
+    }
 
     @PutMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> create(

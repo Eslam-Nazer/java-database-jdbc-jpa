@@ -184,4 +184,63 @@ public class AuthorControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(authorDto.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge()));
     }
+
+    @Test
+    public void testThatPartialUpdateExistingAuthorReturnsHttp200Ok() throws Exception {
+        Author author = TestDataUtil.createTestAuthor();
+        author = authorService.save(author);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("Updated Name");
+        authorDto.setAge(45);
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/" + author.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatPartialUpdateNotExistingAuthorReturnsHttp404NotFound() throws Exception {
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("Updated Name");
+        authorDto.setAge(45);
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatPartialUpdateExistingAuthorReturnsUpdatedAuthor() throws Exception {
+        Author author = TestDataUtil.createTestAuthor();
+        author = authorService.save(author);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("Updated Name");
+        authorDto.setAge(45);
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.patch("/authors/" + author.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorDtoJson)
+                ).andExpect(
+                        MockMvcResultMatchers.jsonPath("$.id").value(author.getId())
+                )
+                .andExpect(
+                        MockMvcResultMatchers.jsonPath("$.name").value("Updated Name")
+                ).andExpect(
+                        MockMvcResultMatchers.jsonPath("$.age").value(45)
+                );
+    }
 }

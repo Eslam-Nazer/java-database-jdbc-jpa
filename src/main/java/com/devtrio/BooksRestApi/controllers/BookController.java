@@ -36,9 +36,15 @@ public class BookController {
             @RequestBody BookDto bookDto
     ) {
         Book book = bookMapper.mapFrom(bookDto);
-        book = bookService.create(isbn, book);
+        boolean bookIsExists = bookService.isExists(isbn);
+        book = bookService.save(isbn, book);
+        bookDto = bookMapper.mapTo(book);
 
-        return new ResponseEntity<>(bookMapper.mapTo(book), HttpStatus.CREATED);
+        if(bookIsExists) {
+            return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping(path = "/books/{isbn}")

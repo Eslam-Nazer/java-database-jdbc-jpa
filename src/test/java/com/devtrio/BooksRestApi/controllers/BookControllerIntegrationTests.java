@@ -87,11 +87,11 @@ public class BookControllerIntegrationTests {
                 MockMvcRequestBuilders.get("/books")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].isbn").value(book.getIsbn())
+                MockMvcResultMatchers.jsonPath("$.content.[0].isbn").value(book.getIsbn())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].title").value(book.getTitle())
+                MockMvcResultMatchers.jsonPath("$.content.[0].title").value(book.getTitle())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].author").value(book.getAuthor())
+                MockMvcResultMatchers.jsonPath("$.content.[0].author").value(book.getAuthor())
         );
     }
 

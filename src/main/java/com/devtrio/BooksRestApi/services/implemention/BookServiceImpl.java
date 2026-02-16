@@ -3,6 +3,8 @@ package com.devtrio.BooksRestApi.services.implemention;
 import com.devtrio.BooksRestApi.domain.entities.Book;
 import com.devtrio.BooksRestApi.repositories.BookRepository;
 import com.devtrio.BooksRestApi.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,11 @@ public class BookServiceImpl implements BookService {
     public List<Book> findAll() {
         Spliterator<Book> spliterator = bookRepository.findAll().spliterator();
         return  StreamSupport.stream(spliterator, false).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Override

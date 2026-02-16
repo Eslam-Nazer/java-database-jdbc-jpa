@@ -31,7 +31,7 @@ public class BookController {
     }
 
     @PutMapping(path = "/books/{isbn}")
-    public ResponseEntity<BookDto> create(
+    public ResponseEntity<BookDto> save(
             @PathVariable("isbn") String isbn,
             @RequestBody BookDto bookDto
     ) {
@@ -55,5 +55,21 @@ public class BookController {
             BookDto bookDto = bookMapper.mapTo(book);
             return new ResponseEntity<>(bookDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PatchMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> patch(
+            @PathVariable("isbn") String isbn,
+            @RequestBody BookDto bookDto
+    ) {
+        if (! bookService.isExists(isbn)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Book book = bookMapper.mapFrom(bookDto);
+        Book patch = bookService.patch(isbn, book);
+        bookDto = bookMapper.mapTo(patch);
+
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 }

@@ -157,4 +157,59 @@ public class BookControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle()));
     }
+
+    @Test
+    public void testThatPartalUpdateExistingBookReturnsHttpStatus200Ok() throws Exception {
+        Book book = TestDataUtil.createTestBook(null);
+        book = bookService.save(book.getIsbn(), book);
+
+        BookDto bookDto = TestDataUtil.createTestBookDto(null);
+        bookDto.setTitle("Updated");
+        String bookDtoJson = objectMapper.writeValueAsString(bookDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/books/" + book.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatPartalUpdateNotExistingBookReturnsHttpStatus404NotFound() throws Exception {
+        BookDto bookDto = TestDataUtil.createTestBookDto(null);
+        bookDto.setTitle("Updated");
+        String bookDtoJson = objectMapper.writeValueAsString(bookDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/books/" + bookDto.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatPartalUpdateExistingBookReturnsUpdatedBook() throws Exception {
+        Book book = TestDataUtil.createTestBook(null);
+        book = bookService.save(book.getIsbn(), book);
+
+        BookDto bookDto = TestDataUtil.createTestBookDto(null);
+        bookDto.setTitle("Updated");
+        String bookDtoJson = objectMapper.writeValueAsString(bookDto);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.patch("/books/" + book.getIsbn())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(bookDtoJson)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn())
+                )
+                .andExpect(
+                        MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle())
+                );
+    }
 }

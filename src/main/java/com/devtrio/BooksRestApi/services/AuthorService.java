@@ -14,4 +14,6 @@ public interface AuthorService {
     Optional<Author> findById(long id);
 
     boolean isExists(Long id);
+
+    Author patch(Long id, Author author);
 }

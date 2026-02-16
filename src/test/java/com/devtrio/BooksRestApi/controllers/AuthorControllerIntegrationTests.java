@@ -1,6 +1,7 @@
 package com.devtrio.BooksRestApi.controllers;
 
 import com.devtrio.BooksRestApi.TestDataUtil;
+import com.devtrio.BooksRestApi.domain.dto.AuthorDto;
 import com.devtrio.BooksRestApi.domain.entities.Author;
 import com.devtrio.BooksRestApi.services.AuthorService;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ public class AuthorControllerIntegrationTests {
     public void testThatListAuthorsIndexReturnListOfAuthors() throws Exception {
         Author author = TestDataUtil.createTestAuthor();
 
-        authorService.create(author);
+        authorService.save(author);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors")
@@ -100,7 +101,7 @@ public class AuthorControllerIntegrationTests {
     @Test
     public void testThatFindAuthorReturn200OkWhenAuthorExist() throws Exception{
         Author author = TestDataUtil.createTestAuthor();
-        authorService.create(author);
+        authorService.save(author);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/" + author.getId())
@@ -123,7 +124,7 @@ public class AuthorControllerIntegrationTests {
     @Test
     public void testThatFindAuthorReturnAuthorWhenExist() throws Exception{
         Author author = TestDataUtil.createTestAuthor();
-        authorService.create(author);
+        authorService.save(author);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/" + author.getId())
@@ -135,5 +136,52 @@ public class AuthorControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.age").value(author.getAge())
         );
+    }
+
+    @Test
+    public void testThatUpdateAuthorReturnHttpStatus200OkWhenAuthorExists() throws Exception {
+        Author author = TestDataUtil.createTestAuthor();
+        author = authorService.save(author);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/authors/" + author.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThatUpdateAuthorReturnHttpStatus404NotFoundWhenAuthorDoesNotExists() throws Exception {
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/authors/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void testThatUpdateMethodExistsAuthorSuccessfullyUpdated() throws Exception {
+        Author author = TestDataUtil.createTestAuthor();
+        authorService.save(author);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("Updated Name");
+        authorDto.setAge(37);
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/" + author.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorDtoJson)
+                )
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(author.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Updated Name"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(37));
     }
 }

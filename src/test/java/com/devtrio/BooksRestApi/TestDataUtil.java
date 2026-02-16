@@ -17,6 +17,13 @@ public class TestDataUtil {
                 .build();
     }
 
+    public static AuthorDto createTestAuthorDto() {
+        return AuthorDto.builder()
+                .name("Abigail Rose")
+                .age(25)
+                .build();
+    }
+
     public static List<Author> createTestAuthors() {
         List<Author> authors = new ArrayList<Author>();
 

@@ -4,7 +4,6 @@ import com.devtrio.BooksRestApi.domain.dto.AuthorDto;
 import com.devtrio.BooksRestApi.domain.entities.Author;
 import com.devtrio.BooksRestApi.mappers.Mapper;
 import com.devtrio.BooksRestApi.services.AuthorService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class AuthorController {
     @PostMapping(path = "/authors")
     public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) {
         Author author = authorMapper.mapFrom(authorDto);
-        author = authorService.create(author);
+        author = authorService.save(author);
 
         return new ResponseEntity<>(authorMapper.mapTo(author), HttpStatus.CREATED);
     }
@@ -51,5 +50,20 @@ public class AuthorController {
         }).orElse(
                 new ResponseEntity<>(HttpStatus.NOT_FOUND)
         );
+    }
+
+    @PutMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> update(
+            @PathVariable("id") Long id, @RequestBody AuthorDto authorDto
+    ) {
+        if (! authorService.isExists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        authorDto.setId(id);
+        Author author = authorMapper.mapFrom(authorDto);
+        author = authorService.save(author);
+
+       return new ResponseEntity<>(authorMapper.mapTo(author), HttpStatus.OK);
     }
 }

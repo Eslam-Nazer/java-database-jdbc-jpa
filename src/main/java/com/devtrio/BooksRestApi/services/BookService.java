@@ -14,4 +14,6 @@ public interface BookService {
     Optional<Book> findById(String isbn);
 
     boolean isExists(String isbn);
+
+    Book patch(String isbn, Book book);
 }

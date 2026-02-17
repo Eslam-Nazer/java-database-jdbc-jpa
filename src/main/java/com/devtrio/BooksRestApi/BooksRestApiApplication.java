@@ -1,13 +1,13 @@
-package com.devtrio.database;
+package com.devtrio.BooksRestApi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DatabaseApplication {
+public class BooksRestApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DatabaseApplication.class, args);
+        SpringApplication.run(BooksRestApiApplication.class, args);
     }
 
 }
